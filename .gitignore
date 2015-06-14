@@ -1,0 +1,15 @@
+20News/*
+JavaCode/*
+DBFiles/*
+Executables/*
+HeadersbuildDB/*
+HeadersqueryDB/*
+Makefile
+**/*.o
+**/*.swp
+**/*.clang-tidy
+**/*.dir-locals.el
+**/*.yy.c
+**/*.tab.c
+**/*.tab.h
+catalog
