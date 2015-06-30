@@ -1,5 +1,5 @@
 
-#include "BagOfWordsBuilder.h"
+#include "MethodSignatureBuilder.h"
 #include "FileNameBuilder.h"
 #include "PDBFeatureListBuilder.h"
 #include "PDBQueryExecutor.h"
@@ -41,24 +41,25 @@ int main () {
 	// now we ask a query... to build up the query, we first load up 
 	// a newsgroup post on Motif
 	cout << "Creating a top-k query.\n";
-	PDBStoredDataTypePtr newsgroupPost {make_shared<TextFileData> ("20News/comp.windows.x/67090")};
-	PDBData query (newsgroupPost);
+	PDBStoredDataTypePtr codeQuery {make_shared<TextFileData> ("query.txt")};
+	PDBData query (codeQuery);
 
-	// use a PDBFeatureListBuilder object to add two features to the
-	// query object
-        PDBFeatureListBuilder featureMachine;
-        PDBFeatureBuilderPtr featureBuilderOne {make_shared<BagOfWordsBuilder> ("BOW", myAggregator, 10000)};
-        PDBFeatureBuilderPtr featureBuilderTwo {make_shared<FileNameBuilder> ("FName")};
-        featureMachine.add (featureBuilderOne);
-        featureMachine.add (featureBuilderTwo);
-        if (query.buildFeatures (featureMachine, errMsg)) {
+	// use a PDBFeatureListBuilder object to add features to the query object
+	PDBFeatureListBuilder featureMachine;
+//	featureMachine.add(make_shared<BagOfWordsBuilder>("BOW", myAggregator, 10000));
+//	featureMachine.add(make_shared<FileNameBuilder>("FName"));
+	featureMachine.add(make_shared<MethodSignatureBuilder>("MSignature"));
+	if (query.buildFeatures (featureMachine, errMsg)) {
 		cout << "Problem building featues: " << errMsg << '\n';
 		exit (1);
 	}
 
 	// create the query
 	PDBQueryExecutorPtr myTopK {make_shared<PDBTopKQuery> (
-		"K = 12, Query = ((0.5, EuclideanDistance (target.BagOfWords, query.BOW)), (0.5, CheckSameDirectory (target.FileName, query.FName)))",
+		"K = 5, Query = ( \
+		(1.0, SignatureDistance(target.MethodSignature, query.MSignature)))",
+//		(0.5, EuclideanDistance(target.BagOfWords, query.BOW)),
+//		(0.5, CheckSameDirectory(target.FileName, query.FName)),
 		query.getFeatures (), myDB.getCatalog () )};
 
 	// execute it
@@ -87,24 +88,6 @@ int main () {
 	for (PDBQueryResult r : output) {
 		cout << '\t' << r.getData ().display () << '\n';
 	}
-	cout << '\n';
 
-	/*
-	// just to illustrate what happens when you have an error
-	PDBQueryExecutorPtr myTopKAgain {make_shared<PDBTopKQuery> (
-		"K = 12, Query = this is so cool I love it", 
-		query.getFeatures (), myDB.getCatalog () )};
-
-	// make sure everything was bad
-	if (myTopKAgain->wasAnError (errorMessage)) {
-		cout << "Found an error " << errorMessage << '\n';
-	}
-
-	// and make sure running it returns an error
-	myTopKAgain = myDB.runQuery (myTopKAgain, wasError, errMsg);
-	if (wasError) {
-		cout << "Error running top k: " << errMsg << '\n';
-	}
-	*/
 }
 

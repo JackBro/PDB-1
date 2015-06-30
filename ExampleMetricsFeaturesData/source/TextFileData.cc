@@ -15,6 +15,8 @@ TextFileData :: TextFileData (const string &fNameIn) {
 	string line;
 	ifstream myfile (fName);
 	if (myfile.is_open()) {
+		std::getline(myfile, boc_);
+		std::getline(myfile, signature_);
 		while (getline (myfile, line)) {
 			lines.push_back (line);
 		}
@@ -25,6 +27,14 @@ TextFileData :: TextFileData (const string &fNameIn) {
 
 const string &TextFileData :: getFileName () {
 	return fName;	
+}
+
+const std::string& TextFileData::getSignature() {
+	return signature_;
+}
+
+const std::string& TextFileData::getBagOfComments() {
+	return boc_;
 }
 
 void *TextFileData :: serialize (void *toHereIn, size_t &size) {
@@ -94,11 +104,16 @@ PDBStoredDataTypePtr TextFileData :: getNewStoredDataTypeObject () {
 string TextFileData :: display () {
 	if (lines.size () == 0) {
 		return fName + ": <empty>";
+	} else {
+		return fName + ": '" + signature_ + "'";
+	}
+	/*
 	} else if (lines.size () == 1) {
 		return fName + ": '" + lines[0] + '\'';
 	} else {
 		return fName + ": '" + lines[0] + "...'";
 	}
+	*/
 }
 
 #endif

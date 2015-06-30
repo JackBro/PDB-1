@@ -13,6 +13,8 @@ private:
 
 	string fName;
 	vector <string> lines;
+	std::string signature_;
+	std::string boc_;
 
 public:
 
@@ -24,6 +26,12 @@ public:
 
 	// access the name of the file
 	const string &getFileName ();
+
+	// access the method signature
+	const std::string& getSignature();
+
+	// access the bag of comments
+	const std::string& getBagOfComments();
 
 	// do-nothing constructor
 	TextFileData () = default;

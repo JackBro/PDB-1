@@ -5,6 +5,7 @@ Executables/*
 HeadersbuildDB/*
 HeadersqueryDB/*
 Makefile
+**/.DS_Store
 **/*.o
 **/*.swp
 **/*.clang-tidy
@@ -13,3 +14,4 @@ Makefile
 **/*.tab.c
 **/*.tab.h
 catalog
+query.txt

@@ -1,5 +1,7 @@
 #include "BagOfWordsBuilder.h"
 #include "FileNameBuilder.h"
+#include "BagOfCommentsBuilder.h"
+#include "MethodSignatureBuilder.h"
 #include "PDBFeatureListBuilder.h"
 #include "PDBQueryExecutor.h"
 #include "PDBQueryResultSet.h"
@@ -61,7 +63,7 @@ int main () {
 	// for each one, we are going to create a PDBData object which we store
 	// inside of the database
 	struct dirent *ent;
-	string directory ("20News");
+	string directory ("JavaCode");
 	const OpenDir dir { directory };
 	int counter = 0;
 	if (dir.valid ()) {
@@ -120,7 +122,7 @@ int main () {
 			}
   		}
 	} else {
-		cerr << "Could not open 20News!!\n";
+		cerr << "Could not open directory!!\n";
 		exit (1);
 	}
 	
@@ -151,8 +153,9 @@ int main () {
 	// features that we create will be called "BagOfWords" and "FileName"
 	cout << "Now adding features to everyone in the database.\n";
 	PDBFeatureListBuilder featureMachine;
-	featureMachine.add (make_shared<BagOfWordsBuilder> ("BagOfWords", myAggregator, 10000));
-	featureMachine.add (make_shared<FileNameBuilder> ("FileName"));
+//	featureMachine.add (make_shared<BagOfWordsBuilder> ("BagOfWords", myAggregator, 10000));
+//	featureMachine.add(make_shared<FileNameBuilder>("FileName"));
+	featureMachine.add(make_shared<MethodSignatureBuilder>("MethodSignature"));
 	if (myDB.buildFeatures (featureMachine, errMsg)) {
 		cout << "Error building the features: " << errMsg << '\n';
 		exit (1);
