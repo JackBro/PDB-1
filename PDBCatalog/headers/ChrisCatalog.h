@@ -4,6 +4,7 @@
 
 #include "CheckSameDirectory.h"
 #include "EuclideanDistance.h"
+#include "SignatureDistance.h"
 #include "PDBCatalog.h"
 #include "PDBFeatureTypeDeserializationMachine.h"
 #include "PDBMetric.h"
@@ -47,7 +48,9 @@ public:
 	}
 
 	bool isMetricRegistered (const string &checkMe) override {
-		return checkMe == "EuclideanDistance" || checkMe == "CheckSameDirectory";
+		return checkMe == "EuclideanDistance" || checkMe == "CheckSameDirectory"
+			|| checkMe == "SignatureDistance"
+			;
 	}
 
 	bool registerMetric (const string &) override {
@@ -79,6 +82,9 @@ public:
 			return temp;
 		} else if (retreiveMe == "CheckSameDirectory") {
 			PDBMetricPtr temp (new CheckSameDirectory);
+			return temp;
+		} else if (retreiveMe == "SignatureDistance") {
+			PDBMetricPtr temp (new SignatureDistance);
 			return temp;
 		} else {
 			PDBMetricPtr temp;
