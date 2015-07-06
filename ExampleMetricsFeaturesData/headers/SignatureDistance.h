@@ -9,10 +9,10 @@ class SignatureDistance : public PDBMetric {
 
 private:
 
-	PDBFeatureTypePtr vecOne;
-	PDBFeatureTypePtr vecTwo;
-	bool gotError;
-	string errorMsg;
+	PDBFeatureTypePtr sigOne_;
+	PDBFeatureTypePtr sigTwo_;
+	bool gotError_;
+	string errorMsg_;
 
 public:
 

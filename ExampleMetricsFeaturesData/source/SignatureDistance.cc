@@ -3,13 +3,13 @@
 #define SIGNATURE_C
 
 #include "SignatureDistance.h"
-#include "SparseVectorFeatureType.h"
+#include "SignatureFeatureType.h"
 #include <iostream>
 #include <string>
 using namespace std;
 
 SignatureDistance :: SignatureDistance () {
-	gotError = false;
+	gotError_ = false;
 }
 
 const string &SignatureDistance :: getName () {
@@ -23,61 +23,64 @@ int SignatureDistance :: getNumParams () {
 
 void SignatureDistance :: takeParam (int whichParam, PDBFeatureTypePtr param) {
 
-	if (param->getCode () != 5923458) {
-		gotError = true;
-		errorMsg = "You gave SignatureDistance a param of type " + param->getTypeName ();
+	// only take SignatureFeatureType
+	if (param->getCode () != 1000001) {
+		gotError_ = true;
+		errorMsg_ = "You gave SignatureDistance a param of type " + param->getTypeName ();
 		return;
 	}
 
 	if (whichParam == 0) {
-		vecOne = param;
+		sigOne_ = param;
 		return;
 	}
 	if (whichParam == 1) {
-		vecTwo = param;
+		sigTwo_ = param;
 		return;
 	}
 
-	gotError = true;
-	errorMsg = "Bad parameter number to SignatureDistance!";
+	gotError_ = true;
+	errorMsg_ = "Bad parameter number to SignatureDistance!";
 }
 
 const string &SignatureDistance :: getParamType (int) {
-	static const string result {"SparseVectorFeatureType"};
+	static const string result {"SignatureFeatureType"};
 	return result;
 }
 
 void SignatureDistance :: reset () {
 	PDBFeatureTypePtr temp;
-	vecOne = temp;
-	vecTwo = temp;
-	gotError = false;
+	sigOne_ = temp;
+	sigTwo_ = temp;
+	gotError_ = false;
 }
 
 double SignatureDistance :: apply (bool &wasError, string &errorMessage) {
 
-	if (gotError) {
+	if (gotError_) {
 		wasError = true;
-		errorMessage = errorMsg;
+		errorMessage = errorMsg_;
 		return 9e99;
 	}
 
-	if (!vecOne || !vecTwo) {
+	if (!sigOne_ || !sigTwo_) {
 		wasError = true;
 		errorMessage = "One of the parameters to SignatureDistance was null";
 		return 9e99;
 	}
 	
-	SparseVectorFeatureType *vecOneCast = dynamic_cast<SparseVectorFeatureType *> (vecOne.get ());
-	SparseVectorFeatureType *vecTwoCast = dynamic_cast<SparseVectorFeatureType *> (vecTwo.get ());
+//	SignatureFeatureType* sigOne = dynamic_cast<SignatureFeatureType*>(sigOne_.get());
+//	SignatureFeatureType* sigTwo = dynamic_cast<SignatureFeatureType*>(sigTwo_.get());
 
-	double tot = 0.0;
+	double tot = 1.0;
 	wasError = false;
-	for (int i : vecOneCast->getNonZeroSlots ()) {
-		double first = vecOneCast->getValue (i);
-		double second = vecTwoCast->getValue (i);
+	/*
+	for (int i : sigOne_Cast->getNonZeroSlots ()) {
+		double first = sigOne_Cast->getValue (i);
+		double second = sigTwo_Cast->getValue (i);
 		tot += (first - second) * (first - second);
 	}
+	*/
 	return tot;
 }
 

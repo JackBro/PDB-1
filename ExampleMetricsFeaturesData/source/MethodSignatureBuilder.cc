@@ -3,16 +3,16 @@
 #define CLASS_NAME_BUILDER_C
 
 #include "MethodSignatureBuilder.h"
-#include "TextFeatureType.h"
+#include "SignatureFeatureType.h"
 #include "TextFileData.h"
 
 MethodSignatureBuilder :: MethodSignatureBuilder (const string &myNameIn) {
-	myName = myNameIn;
+	myName_ = myNameIn;
 }
 
 PDBFeatureBuilder &MethodSignatureBuilder :: operator = (PDBFeatureBuilderPtr copyMeIn) {
 	MethodSignatureBuilder *copyMe = dynamic_cast<MethodSignatureBuilder *> (copyMeIn.get ());
-	myName = copyMe->myName;
+	myName_ = copyMe->myName_;
 	return *this;
 }
 
@@ -27,11 +27,11 @@ PDBFeatureTypePtr MethodSignatureBuilder :: buildFeature (PDBData &fromMe, bool 
 
 	wasError = false;
 	TextFileData *temp = dynamic_cast<TextFileData *> (fromMe.getData ().get ());
-	return make_shared<TextFeatureType>(temp->getSignature());
+	return make_shared<SignatureFeatureType>(temp->getSignature());
 }
 
 const string &MethodSignatureBuilder :: getFeatureName () {
-	return myName;
+	return myName_;
 }
 
 // these do not do anything... they will only be called in a distributed database

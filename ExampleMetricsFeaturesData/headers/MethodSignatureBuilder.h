@@ -9,7 +9,7 @@ class MethodSignatureBuilder : public PDBFeatureBuilder {
 
 private:
 
-	string myName;
+	string myName_;
 
 public:
 

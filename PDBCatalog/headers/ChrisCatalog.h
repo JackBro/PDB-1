@@ -11,6 +11,7 @@
 #include "PDBStoredDataTypeDeserializationMachine.h"
 #include "SparseVectorFeatureType.h"
 #include "TextFeatureType.h"
+#include "SignatureFeatureType.h"
 #include "TextFileData.h"
 #include <fstream>
 #include <iostream>
@@ -59,7 +60,9 @@ public:
 	}
 
 	bool isFeatureTypeRegistered (const string &checkMe) override {
-		return checkMe == "SparseVectorFeatureType" || checkMe == "TextFeatureType";
+		return checkMe == "SparseVectorFeatureType" || checkMe == "TextFeatureType"
+			|| checkMe == "SignatureFeatureType"
+			;
 	}
 
 	bool registerFeatureType (const string &) override {
@@ -141,6 +144,8 @@ public:
 		machineOne.registerNewFeatureType (tempData2);
 		PDBFeatureTypePtr tempData3 (new TextFeatureType);
 		machineOne.registerNewFeatureType (tempData3);
+		PDBFeatureTypePtr tempData4 (new SignatureFeatureType);
+		machineOne.registerNewFeatureType (tempData4);
 	}		
 
 private:
