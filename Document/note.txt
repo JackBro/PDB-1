@@ -1,0 +1,13 @@
+1. How to register a metric?
+	In file 'PDBCatalog/headers/ChrisCatalog.h', modify the method
+		bool isMetricRegistered (const string &checkMe) override
+	and method
+		bool registerMetric (const string &) override
+	and don't forget to allocate a unique ID for the getCode() method
+
+2. How to register a feature type?
+	In file 'PDBCatalog/headers/ChrisCatalog.h', modify the method
+		bool isFeatureTypeRegistered (const string &checkMe) override
+	and method
+		bool registerFeatureType (const string &) override
+	and don't forget to allocate a unique ID for the getCode() method
