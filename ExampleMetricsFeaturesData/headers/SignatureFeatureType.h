@@ -4,7 +4,6 @@
 
 #include "PDBFeatureType.h"
 #include <string>
-using namespace std;
 
 // stores a vector in a sparse format
 class SignatureFeatureType : public PDBFeatureType {
@@ -12,26 +11,32 @@ class SignatureFeatureType : public PDBFeatureType {
 public:
 
 	// constructors
-	SignatureFeatureType () = default;
-	explicit SignatureFeatureType (const string &forMe);
+    SignatureFeatureType() = default;
+    SignatureFeatureType(const std::string& boc,
+                         const std::string& returnType,
+                         const std::string& methodName,
+                         const std::string& parameters);
 
-	// replace the existing string with a new one
-	void replaceVal (const string &useMe);
-	
-	// get the string
-	const string &getVal ();
-	
+    // get methods
+    const std::string& getBOC();
+    const std::string& getReturnType();
+    const std::string& getMethodName();
+    const std::string& getParameters();
+
 	// from the interface
-	const string &getTypeName () override;
+	const std::string &getTypeName () override;
 	int getCode () override;
 	void *serialize (void *toHere, size_t &size) override;
 	void *deSerialize (void *fromHere, size_t &size) override;
 	PDBFeatureTypePtr getNewFeatureTypeObject () override;
-	string display () override;
+	std::string display () override;
 	
 private:
 	
-	string val_;
+    std::string boc_;
+	std::string returnType_;
+	std::string methodName_;
+	std::string parameters_;
 };
 
 #endif

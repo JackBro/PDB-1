@@ -4,26 +4,40 @@
 
 #include "SignatureFeatureType.h"
 
-
-SignatureFeatureType :: SignatureFeatureType (const string &forMe) {
-	val_ = forMe;
+SignatureFeatureType::SignatureFeatureType(const std::string& boc,
+                     const std::string& returnType,
+                     const std::string& methodName,
+                     const std::string& parameters) {
+    boc_ = boc;
+    returnType_ = returnType;
+    methodName_ = methodName;
+    parameters_ = parameters;
 }
 
-void SignatureFeatureType :: replaceVal (const string &useMe) {
-	val_ = useMe;
+const std::string& SignatureFeatureType::getBOC() {
+    return boc_;
 }
 
-const string &SignatureFeatureType :: getVal () {
-	return val_;
+const std::string& SignatureFeatureType::getReturnType() {
+    return returnType_;
 }
 
-const string &SignatureFeatureType :: getTypeName () {
-	static const string result {"SignatureFeatureType"};
+const std::string& SignatureFeatureType::getMethodName() {
+    return methodName_;
+}
+
+const std::string& SignatureFeatureType::getParameters() {
+    return parameters_;
+}
+
+// implementation for the interface
+const std::string &SignatureFeatureType :: getTypeName () {
+	static const std::string result {"SignatureFeatureType"};
 	return result;
 }
 
-string SignatureFeatureType :: display () {
-	return val_;
+std::string SignatureFeatureType :: display () {
+	return returnType_ + " " + methodName_ + "(";
 }
 
 int SignatureFeatureType :: getCode () {
