@@ -24,7 +24,9 @@ int main () {
 		cout << "Error opening the DB: " << errMsg << '\n';
 		exit (1);
 	}
-
+    std::cout << "Done loading articles." << std::endl;
+    bool wasError;
+    /*
 	// now we will count all of the frequencies of all of the words... 
 	// this is done so that we can build the query features
 	cout << "Done loading articles.  Now, using the WordFrequencyAggregator class to count.\n";
@@ -37,7 +39,7 @@ int main () {
 		exit (1);
 	}
 	cout << "Done running aggregation; result is " << myAggregator->display () << '\n';
-
+    */
 	// now we ask a query... to build up the query, we first load up 
 	// a newsgroup post on Motif
 	cout << "Creating a top-k query.\n";

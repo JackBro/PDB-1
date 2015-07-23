@@ -13,7 +13,7 @@ TextFileData :: TextFileData (const string &fNameIn) {
 
 	// now read in the file
 	string line;
-	ifstream myfile (fName);
+	ifstream myfile(fName);
 	if (myfile.is_open()) {
 		std::getline(myfile, boc_);
 		std::getline(myfile, return_type_);
@@ -22,6 +22,7 @@ TextFileData :: TextFileData (const string &fNameIn) {
 		while (getline (myfile, line)) {
 			lines.push_back (line);
 		}
+        myfile.close();
 	} else {
 		cerr << "Warning: unable to open file '" << fNameIn << "'\n";
 	}

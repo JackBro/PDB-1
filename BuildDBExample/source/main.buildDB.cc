@@ -126,6 +126,8 @@ int main () {
 		exit (1);
 	}
 	
+    std::cout << "Done loading " << counter << " articles." << std::endl;
+    /*
 	// at this point we have created the database.  In order to create
 	// the features (in particular the "bag of words" feature) we are
 	// going to have to count the occurence of each word in the corpus.
@@ -145,7 +147,7 @@ int main () {
 		exit (1);
 	}
 	cout << "Done running aggregation; result is " << myAggregator->display () << '\n';
-
+    */
 	// lastly we will add two features to all of the items in the database.
 	// this is done by using the PDBFeatureListBuilder class.  This class
 	// allows us to load up custom PDBFeatureBuilder objects, each of which
